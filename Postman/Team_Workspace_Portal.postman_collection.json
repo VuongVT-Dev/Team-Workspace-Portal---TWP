@@ -1,0 +1,639 @@
+{
+  "info": {
+    "_postman_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "name": "Team Workspace Portal (WSP) REST APIs",
+    "description": "Complete collection to test all REST APIs of Team Workspace Portal using Spring Boot 3 & MS SQL Server.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "token",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Auth",
+      "item": [
+        {
+          "name": "Login as Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();",
+                  "if (jsonData.success && jsonData.data && jsonData.data.token) {",
+                  "    pm.collectionVariables.set(\"token\", jsonData.data.token);",
+                  "    console.log(\"Token saved successfully!\");",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Login as Member1",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"member1\",\n  \"password\": \"member123\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "login"]
+            }
+          }
+        },
+        {
+          "name": "Get Current User (Me)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. Profile",
+      "item": [
+        {
+          "name": "Get Profile Me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/profile/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "profile", "me"]
+            }
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Trần Minh Quân (Leader Cập Nhật)\",\n  \"email\": \"quan.tm@fpt.edu.vn\",\n  \"studentCode\": \"SE160001\",\n  \"avatarUrl\": \"https://api.dicebear.com/7.x/bottts/svg?seed=admin_new\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/profile/me",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "profile", "me"]
+            }
+          }
+        },
+        {
+          "name": "Get All Team Members",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/profile/members",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "profile", "members"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Phases",
+      "item": [
+        {
+          "name": "Get All Phases (With % Progress)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/phases",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "phases"]
+            }
+          }
+        },
+        {
+          "name": "Create Phase (Admin Only)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Giai đoạn 4: Nghiệm thu & Bảo vệ đồ án\",\n  \"description\": \"Thuyết trình bảo vệ trước hội đồng tốt nghiệp\",\n  \"displayOrder\": 4,\n  \"startDate\": \"2026-12-01\",\n  \"endDate\": \"2026-12-25\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/phases",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "phases"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Tasks",
+      "item": [
+        {
+          "name": "Get My Tasks (Tab 1)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/my",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "my"]
+            }
+          }
+        },
+        {
+          "name": "Get All Tasks (Tab 2 Kanban & Tab 3)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks"]
+            }
+          }
+        },
+        {
+          "name": "Create Task",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Viết Unit Test cho Service tầng Backend\",\n  \"taskType\": \"TESTING\",\n  \"difficulty\": \"MEDIUM\",\n  \"phaseId\": 2,\n  \"assigneeId\": 2,\n  \"startDate\": \"2026-11-15\",\n  \"endDate\": \"2026-11-20\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks"]
+            }
+          }
+        },
+        {
+          "name": "Update Task Status",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"PROCESSING\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/3/status",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "3", "status"]
+            }
+          }
+        },
+        {
+          "name": "Submit Work (Assignee)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workSubmissionNote\": \"Đã nộp PR tại https://github.com/team/portal/pull/12. Hoàn thành 100% test case.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/4/submit",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "4", "submit"]
+            }
+          }
+        },
+        {
+          "name": "Review Task (Strict Assigner Only)",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"reviewComment\": \"Code đạt chất lượng tốt, đúng quy chuẩn convention. Duyệt hoàn thành!\",\n  \"status\": \"DONE\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/tasks/3/review",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tasks", "3", "review"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. Schedules",
+      "item": [
+        {
+          "name": "Get Weekly Schedule Grid",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules"]
+            }
+          }
+        },
+        {
+          "name": "Toggle Schedule Slot",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dayOfWeek\": \"TUE\",\n  \"shift\": \"MORNING_2\",\n  \"type\": \"CLASS\",\n  \"subjectOrReason\": \"Môn An Toàn Thông Tin\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/schedules/toggle",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "schedules", "toggle"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. Meetings",
+      "item": [
+        {
+          "name": "Get All Meetings",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/meetings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "meetings"]
+            }
+          }
+        },
+        {
+          "name": "Create Meeting",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Họp thống nhất kiến trúc Database SQL Server\",\n  \"googleMeetLink\": \"https://meet.google.com/xyz-123-abc\",\n  \"startTime\": \"2026-11-18T19:00:00\",\n  \"durationMinutes\": 90,\n  \"takeNoteContent\": \"Thảo luận về dialect SQL Server và trigger/indexes.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/meetings",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "meetings"]
+            }
+          }
+        },
+        {
+          "name": "Log Member Attendance",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 2,\n  \"attendanceStatus\": \"PRESENT\",\n  \"loggedMinutes\": 90,\n  \"contributionNote\": \"Báo cáo tiến độ phân hệ Spring Data JPA\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/meetings/1/attendance",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "meetings", "1", "attendance"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. Documents",
+      "item": [
+        {
+          "name": "Get All Documents",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/documents",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "documents"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. Extensions",
+      "item": [
+        {
+          "name": "Get All Extensions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/extensions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "extensions"]
+            }
+          }
+        },
+        {
+          "name": "Create Extension",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"category\": \"DATABASE\",\n  \"itemName\": \"Microsoft SQL Server 2022\",\n  \"version\": \"16.x\",\n  \"description\": \"Hệ quản trị CSDL quan hệ chính thức của dự án.\",\n  \"referenceUrl\": \"https://www.microsoft.com/en-us/sql-server/sql-server-downloads\",\n  \"configSnippet\": \"sa / 123456 (Port 1433)\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/extensions",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "extensions"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

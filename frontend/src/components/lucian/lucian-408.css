@@ -1,0 +1,29 @@
+/* Lucian UX/UI Prompt #408 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#408 */
+.u408{position:relative;display:inline-flex;align-items:center;justify-content:flex-end;height:46px;z-index:40}
+.u408-w{position:relative;width:46px;height:46px}
+.u408-av{position:absolute;right:0;top:0;width:46px;height:46px;padding:0;border:0;border-radius:50%;background:#FFE1CC;overflow:hidden;box-shadow:0 0 0 0 transparent;transition:box-shadow .3s,transform .45s var(--ux-spring)}
+.u408-av:hover{transform:scale(1.05)}
+.u408-av:active{transform:scale(.94);transition-duration:.3s,.1s}
+.u408-av[aria-expanded="true"]{box-shadow:0 0 0 3px var(--ux-page),0 0 0 5px var(--ux-accent)}
+.u408 .u408-av:focus-visible{outline:2px solid var(--ux-accent);outline-offset:3px}
+.u408-av svg,.u408-av img{display:block;width:46px;height:46px;object-fit:cover}
+.u408-dot{position:absolute;right:-1px;top:33px;width:12px;height:12px;border-radius:50%;background:var(--ux-mint);box-shadow:0 0 0 2.5px var(--ux-page);pointer-events:none}
+.u408-m{position:absolute;right:0;top:58px;width:232px;max-width:calc(100vw - 24px);padding:6px;border-radius:16px;background:var(--ux-surface);box-shadow:inset 0 0 0 1px var(--ux-line),0 22px 44px -18px var(--ux-shadow-strong),0 4px 12px -6px var(--ux-shadow);transform-origin:calc(100% - 23px) -35px;transform:scale(.16);opacity:0;visibility:hidden;z-index:50;transition:transform .28s var(--ux-ease),opacity .2s,visibility 0s .28s}
+.u408-m::before{content:"";position:absolute;right:18px;top:-5px;width:10px;height:10px;border-radius:2px;background:var(--ux-surface);box-shadow:-1px -1px 0 0 var(--ux-line);transform:rotate(45deg)}
+.u408.is-open .u408-m{transform:none;opacity:1;visibility:visible;transition:transform .55s var(--ux-spring),opacity .15s,visibility 0s}
+.u408-m>*{position:relative;opacity:0;transform:translateY(-6px);transition:opacity .15s,transform .35s var(--ux-spring)}
+.u408.is-open .u408-m>*{opacity:1;transform:none;transition-delay:calc(70ms + var(--i) * 35ms)}
+.u408-hd{display:flex;flex-direction:column;gap:2px;padding:8px 10px 10px}
+.u408-hd b{font-size:14px;font-weight:650;letter-spacing:-.01em;color:var(--ux-ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.u408-hd span{font-size:12px;color:var(--ux-ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.u408-it{display:flex;align-items:center;gap:10px;width:100%;height:36px;padding:0 10px;border:0;border-radius:10px;background:none;font-size:13.5px;font-weight:500;color:var(--ux-ink);text-align:left}
+.u408-it:hover,.u408-it:focus-visible{background:var(--ux-surface-2);outline:none}
+.u408-it svg{width:18px;height:18px;flex:none;fill:none;stroke:var(--ux-ink-2);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.u408-it.is-out{color:var(--ux-danger)}
+.u408-it.is-out svg{stroke:var(--ux-danger)}
+.u408-it.is-out:hover,.u408-it.is-out:focus-visible{background:color-mix(in srgb,var(--ux-danger) 10%,transparent)}
+.u408-mode{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;height:40px;padding:0 10px;border-radius:10px;font-size:13.5px;font-weight:500;color:var(--ux-ink);cursor:pointer;user-select:none}
+.u408-mode:hover{background:var(--ux-surface-2)}
+.u408-mode-lbl{display:flex;align-items:center;gap:10px;min-width:0}
+.u408-mode-lbl svg{width:18px;height:18px;flex:none;fill:none;stroke:var(--ux-ink-2);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.u408-hr{height:1px;margin:5px 4px;background:var(--ux-line)}

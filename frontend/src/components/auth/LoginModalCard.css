@@ -1,0 +1,109 @@
+/* Smooth rise-up-from-bottom transitions for TWP Login Modal & standalone LoginPage */
+
+.twp-landing-stage {
+  transition:
+    transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 420ms ease,
+    filter 420ms ease;
+  will-change: transform, opacity;
+}
+
+.twp-landing-stage.is-receded {
+  transform: scale(0.965) translateY(-12px);
+  opacity: 0.42;
+  filter: blur(2px);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Modal Backdrop */
+.twp-login-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  overflow-y: auto;
+  background: rgba(6, 8, 18, 0.56);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 380ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.twp-login-backdrop.is-open {
+  opacity: 1;
+}
+
+.twp-login-backdrop.is-closing {
+  opacity: 0;
+  transition: opacity 280ms ease-in;
+}
+
+/* Modal Sheet rising smoothly from the bottom */
+.twp-login-sheet {
+  width: 100%;
+  max-width: 28rem; /* max-w-md */
+  margin: auto;
+  opacity: 0;
+  transform: translate3d(0, 180px, 0) scale(0.96);
+  transition:
+    transform 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform, opacity;
+}
+
+.twp-login-backdrop.is-open .twp-login-sheet {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.twp-login-backdrop.is-closing .twp-login-sheet {
+  opacity: 0;
+  transform: translate3d(0, 120px, 0) scale(0.97);
+  transition:
+    transform 300ms cubic-bezier(0.4, 0, 1, 1),
+    opacity 240ms ease-in;
+}
+
+/* Standalone /login page entrance from bottom */
+@keyframes twpLoginRiseUp {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 160px, 0) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+.twp-login-rise-standalone {
+  animation: twpLoginRiseUp 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  will-change: transform, opacity;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .twp-landing-stage,
+  .twp-login-backdrop,
+  .twp-login-sheet {
+    transition-duration: 120ms !important;
+  }
+
+  .twp-landing-stage.is-receded {
+    transform: none;
+    filter: none;
+  }
+
+  .twp-login-sheet,
+  .twp-login-backdrop.is-closing .twp-login-sheet {
+    transform: none;
+  }
+
+  .twp-login-rise-standalone {
+    animation: none;
+  }
+}
