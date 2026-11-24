@@ -41,7 +41,7 @@ public class ProfileController {
 
     @PostMapping("/avatar")
     public ResponseEntity<ApiResponse<String>> uploadAvatar(@RequestParam("file") MultipartFile file) {
-        String avatarUrl = storageService.store(file);
+        String avatarUrl = storageService.store(file, "avatars");
         return ResponseEntity.ok(ApiResponse.ok("Tải ảnh đại diện thành công", avatarUrl));
     }
 }

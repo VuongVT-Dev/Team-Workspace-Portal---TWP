@@ -47,7 +47,7 @@ public class TaskController {
 
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse<Map<String, String>>> uploadAttachment(@RequestParam("file") MultipartFile file) {
-        String fileUrl = storageService.store(file);
+        String fileUrl = storageService.store(file, "tasks");
         String originalName = file.getOriginalFilename() != null ? file.getOriginalFilename() : "attachment";
         return ResponseEntity.ok(ApiResponse.ok("Tải tệp đính kèm thành công", Map.of(
                 "url", fileUrl,

@@ -37,7 +37,7 @@ public class DocumentService {
             throw new BadRequestException("Tập tin tải lên không được để trống");
         }
 
-        String fileUrl = storageService.store(file);
+        String fileUrl = storageService.store(file, "documents");
         long fileSizeKb = file.getSize() / 1024;
 
         String originalFilename = file.getOriginalFilename() != null ? file.getOriginalFilename() : "";
